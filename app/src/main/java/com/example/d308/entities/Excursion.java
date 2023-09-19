@@ -3,6 +3,7 @@ package com.example.d308.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity(tableName = "excursions")
