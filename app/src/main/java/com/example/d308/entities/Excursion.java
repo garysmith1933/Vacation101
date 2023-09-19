@@ -13,6 +13,8 @@ public class Excursion {
 
     private Date startDate;
 
+    private int vacationID;
+
     public Excursion(int excursionID, String excursionName, Date startDate, int vacationID) {
         this.excursionID = excursionID;
         this.excursionName = excursionName;
@@ -52,5 +54,4 @@ public class Excursion {
         this.vacationID = vacationID;
     }
 
-    private int vacationID;
 }

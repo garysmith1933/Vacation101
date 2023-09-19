@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(tableName = "vacations")
 public class Vacation {
@@ -14,6 +16,8 @@ public class Vacation {
     private String hotel;
     private Date startDate;
     private Date endDate;
+
+    private Set excursions = new HashSet<>();
 
     public int getVacationID() {
         return vacationID;
