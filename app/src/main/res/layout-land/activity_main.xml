@@ -7,7 +7,6 @@
     tools:context=".UI.MainActivity">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vacation 101"
@@ -23,27 +22,16 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintVertical_bias="0.667"
-        tools:text="BUTT" />
+        android:text="BUTT"
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="803dp" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="98dp"
-        android:layout_height="109dp"
-        android:layout_marginTop="409dp"
-        android:layout_marginBottom="216dp"
+        android:layout_width="105dp"
+        android:layout_height="178dp"
         android:src="@drawable/vacation"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        tools:layout_editor_absoluteX="153dp"
+        tools:layout_editor_absoluteY="409dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
