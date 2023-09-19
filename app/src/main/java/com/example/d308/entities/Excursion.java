@@ -2,8 +2,10 @@ package com.example.d308.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-import java.time.LocalDate;
+import com.example.d308.utility.DateConverter;
+
 import java.util.Date;
 
 @Entity(tableName = "excursions")
@@ -11,9 +13,8 @@ public class Excursion {
     @PrimaryKey(autoGenerate = true)
     private int excursionID;
     private String excursionName;
-
+    @TypeConverters(DateConverter.class)
     private Date startDate;
-
     private int vacationID;
 
     public Excursion(int excursionID, String excursionName, Date startDate, int vacationID) {

@@ -3,8 +3,10 @@ package com.example.d308.entities;
 import androidx.loader.content.Loader;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-import java.time.LocalDate;
+import com.example.d308.utility.DateConverter;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,10 +18,12 @@ public class Vacation {
 
     private String title;
     private String hotel;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    @TypeConverters(DateConverter.class)
+    private Date startDate;
+    @TypeConverters(DateConverter.class)
+    private Date endDate;
 
-    private Set excursions = new HashSet<>();
+//    private Set excursions = new HashSet<>();
 
     public int getVacationID() {
         return vacationID;
@@ -45,23 +49,23 @@ public class Vacation {
         this.hotel = hotel;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public Vacation(int vacationID, String title, String hotel, LocalDate startDate, LocalDate endDate) {
+    public Vacation(int vacationID, String title, String hotel, Date startDate, Date endDate) {
         this.vacationID = vacationID;
         this.title = title;
         this.hotel = hotel;
