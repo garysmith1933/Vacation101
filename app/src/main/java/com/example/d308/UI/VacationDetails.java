@@ -1,11 +1,13 @@
 package com.example.d308.UI;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +20,16 @@ import com.example.d308.database.Repository;
 import com.example.d308.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class VacationDetails extends AppCompatActivity {
     String name;
     String hotel;
     int vacationID;
+    Date startDate;
+    Date endDate;
+
     EditText editName;
     EditText editHotelName;
 
@@ -49,6 +57,29 @@ public class VacationDetails extends AppCompatActivity {
 
         vacationID = getIntent().getIntExtra("id", -1);
 
+        editStartDate.setDate(new Date(getIntent().getLongExtra("startDate", -1)).getTime());
+
+        editEndDate.setDate(new Date(getIntent().getLongExtra("endDate", -1)).getTime());
+
+        editStartDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+                startDate = calendar.getTime();
+            }
+        });
+
+        editEndDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+                endDate = calendar.getTime();
+            }
+        });
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +95,7 @@ public class VacationDetails extends AppCompatActivity {
         excursionAdapter.setExcursions(repository.getmAllExcursions());
     }
 
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_vacation_details, menu);
         return true;
@@ -75,7 +107,7 @@ public class VacationDetails extends AppCompatActivity {
             if (vacationID == -1) {
                 if (repository.getmAllVacations().size() == 0) vacationID = 1;
                 else vacationID = repository.getmAllVacations().get(repository.getmAllVacations().size()-1).getVacationID()+1;
-//                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString()));
+                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), startDate, endDate);
             }
         }
 
