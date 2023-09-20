@@ -60,9 +60,13 @@ public class VacationDetails extends AppCompatActivity {
 
         vacationID = getIntent().getIntExtra("id", -1);
 
-        editStartDate.setDate(new Date(getIntent().getLongExtra("startDate", -1)).getTime());
+        long tempStartDate = getIntent().getLongExtra("startDate", -1);
+        //the problem could be here.
+        editStartDate.setDate(tempStartDate);
 
-        editEndDate.setDate(new Date(getIntent().getLongExtra("endDate", -1)).getTime());
+        long tempEndDate = getIntent().getLongExtra("endDate", -1);
+
+        editEndDate.setDate(tempEndDate);
 
         editStartDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -127,3 +131,6 @@ public class VacationDetails extends AppCompatActivity {
         return true;
     }
 }
+
+// need to fix the back button on the vacation details page. have no clue why its not working.
+//need to do the same thing for excursion, being able to add it and update it.
