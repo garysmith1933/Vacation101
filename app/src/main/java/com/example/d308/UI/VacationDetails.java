@@ -108,9 +108,15 @@ public class VacationDetails extends AppCompatActivity {
                 if (repository.getmAllVacations().size() == 0) vacationID = 1;
                 else vacationID = repository.getmAllVacations().get(repository.getmAllVacations().size()-1).getVacationID()+1;
                 vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), startDate, endDate);
+                repository.insert(vacation);
+            }
+
+            else {
+                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), startDate, endDate);
+                repository.update(vacation);
+                this.finish();
             }
         }
-
         return true;
     }
 }
