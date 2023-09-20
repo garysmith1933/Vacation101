@@ -17,11 +17,14 @@ import android.widget.EditText;
 
 import com.example.d308.R;
 import com.example.d308.database.Repository;
+import com.example.d308.entities.Excursion;
 import com.example.d308.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class VacationDetails extends AppCompatActivity {
     String name;
@@ -92,7 +95,11 @@ public class VacationDetails extends AppCompatActivity {
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
         recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        excursionAdapter.setExcursions(repository.getmAllExcursions());
+        List<Excursion> filteredExcursions = new ArrayList<>();
+        for (Excursion e : repository.getmAllExcursions()) {
+            if (e.getVacationID() == vacationID) filteredExcursions.add(e);
+        }
+        excursionAdapter.setExcursions(filteredExcursions);
     }
 
 
