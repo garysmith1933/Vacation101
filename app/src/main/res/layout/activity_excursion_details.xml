@@ -4,4 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.ExcursionDetails"/>
+    tools:context=".UI.ExcursionDetails">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="-64dp"
+        tools:layout_editor_absoluteY="46dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_margin="2dp"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:text="Name" />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:id="@+id/excursionName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_margin="2dp"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:text="Date" />
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                android:id="@+id/date"
+                android:drawableRight="@drawable/calendar"/>
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

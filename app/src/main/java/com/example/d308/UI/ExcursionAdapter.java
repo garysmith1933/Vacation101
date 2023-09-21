@@ -15,7 +15,10 @@ import com.example.d308.R;
 import com.example.d308.entities.Excursion;
 import com.example.d308.entities.Vacation;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.ExcursionViewHolder> {
     private List<Excursion> mExcursions;
@@ -24,14 +27,14 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
 
     class ExcursionViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView excurisonItemView;
-        private final TextView excurisonItemView2;
+        private final TextView excursionItemView;
+        private final TextView excursionItemView2;
 
 
         public ExcursionViewHolder(@NonNull View itemView) {
             super(itemView);
-            excurisonItemView = itemView.findViewById(R.id.textView3);
-            excurisonItemView2 = itemView.findViewById(R.id.textView4);
+            excursionItemView = itemView.findViewById(R.id.textView3);
+            excursionItemView2 = itemView.findViewById(R.id.textView4);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -40,10 +43,16 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
                     Intent intent = new Intent(context, ExcursionDetails.class);
                     intent.putExtra("id", current.getExcursionID());
                     intent.putExtra("name", current.getExcursionName());
+                    intent.putExtra("date", formatDate(current.getStartDate()));
+                    intent.putExtra("vacationID", current.getVacationID());
                     context.startActivity(intent);
                 }
             });
         }
+    }
+    private String formatDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy", Locale.US);
+        return formatter.format(date);
     }
     public ExcursionAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
@@ -62,13 +71,13 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
             Excursion current = mExcursions.get(position);
             String name = current.getExcursionName();
             int excursionID = current.getExcursionID();
-            holder.excurisonItemView.setText(name);
-            holder.excurisonItemView2.setText(Integer.toString(excursionID));
+            holder.excursionItemView.setText(name);
+            holder.excursionItemView2.setText(Integer.toString(excursionID));
         }
 
         else {
-            holder.excurisonItemView.setText("No excursion name");
-            holder.excurisonItemView2.setText("No excursion id");
+            holder.excursionItemView.setText("No excursion name");
+            holder.excursionItemView2.setText("No excursion id");
         }
     }
 
