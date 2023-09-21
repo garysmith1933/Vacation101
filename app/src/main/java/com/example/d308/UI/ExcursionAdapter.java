@@ -20,7 +20,6 @@ import java.util.List;
 public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.ExcursionViewHolder> {
     private List<Excursion> mExcursions;
     private final Context context;
-
     private final LayoutInflater mInflater;
 
     class ExcursionViewHolder extends RecyclerView.ViewHolder {

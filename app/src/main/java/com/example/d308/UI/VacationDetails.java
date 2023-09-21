@@ -184,6 +184,11 @@ public class VacationDetails extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.vacationSave ) {
             Vacation vacation;
+            if ( !calStart.getTime().before(calEnd.getTime())) {
+                Toast.makeText(VacationDetails.this, "ERROR: The end date must be after the start date.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
             if (vacationID == -1) {
                 if (repository.getmAllVacations().size() == 0) vacationID = 1;
                 else vacationID = repository.getmAllVacations().get(repository.getmAllVacations().size()-1).getVacationID()+1;
@@ -219,7 +224,7 @@ public class VacationDetails extends AppCompatActivity {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }
 
