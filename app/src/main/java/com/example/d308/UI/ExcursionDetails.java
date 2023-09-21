@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -37,9 +38,9 @@ public class ExcursionDetails extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener startDate;
     Excursion currentExcursion;
 
+    int selectedVacationID;
+
     final Calendar calendarStart = Calendar.getInstance();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +59,15 @@ public class ExcursionDetails extends AppCompatActivity {
         ArrayList<Vacation> vacationList= new ArrayList<>();
         vacationList.addAll(repository.getmAllVacations());
         ArrayList<Integer> vacationIDList = new ArrayList<>();
+
         for (Vacation vacation:vacationList) {
             vacationIDList.add(vacation.getVacationID());
         }
-
         ArrayAdapter<Integer> vacationIdAdapter= new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item,vacationIDList);
         Spinner spinner=findViewById(R.id.spinner);
         spinner.setAdapter(vacationIdAdapter);
 
-        startDate = new DatePickerDialog.OnDateSetListener() {
+            startDate = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -101,7 +102,21 @@ public class ExcursionDetails extends AppCompatActivity {
             }
         });
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedVacationID = (int) parentView.getItemAtPosition(position);
+                Log.d("id", "vacation id is set" + selectedVacationID);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
     }
+
+
 
     private void updateStartDate() {
         String myFormat = "MM/dd/yy"; //In which you need put here
@@ -122,17 +137,20 @@ public class ExcursionDetails extends AppCompatActivity {
             return true;
         }
 
-
         if (item.getItemId()== R.id.excursionSave){
             Excursion excursion;
             if (excursionID == -1) {
-                if (repository.getmAllExcursions().size() == 0) excursionID = 1;
-                else excursionID = repository.getmAllExcursions().get(repository.getmAllExcursions().size() - 1).getExcursionID() + 1;
-                excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), vacationID);
+                if (repository.getmAllExcursions().size() == 0) {
+                    excursionID = 1;
+                }
+                else {
+                    excursionID = repository.getmAllExcursions().get(repository.getmAllExcursions().size() - 1).getExcursionID() + 1;
+                }
+                excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), selectedVacationID);
                 repository.insert(excursion);
             }
             else {
-                excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), vacationID);
+                excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), selectedVacationID);
                 repository.update(excursion);
                 this.finish();
             }
@@ -154,6 +172,7 @@ public class ExcursionDetails extends AppCompatActivity {
 
 }
 
-//cannot see excursions listed under product
-//excursions do not have correct ids - I would like to correct this before i go to bed.
-//excursions can be added, updated, and deleted.
+//need to have excursions page go back to vacation details after action is made.
+//need the data to be there immediately after without going all the way back.
+//need to add notification on deletion of excursion.
+//e.  Include validation that the excursion date is during the associated vacation. - after start date before end date?

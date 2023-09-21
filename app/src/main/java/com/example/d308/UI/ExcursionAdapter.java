@@ -70,9 +70,9 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
         if (mExcursions != null) {
             Excursion current = mExcursions.get(position);
             String name = current.getExcursionName();
-            int excursionID = current.getExcursionID();
+            int vacationID = current.getVacationID();
             holder.excursionItemView.setText(name);
-            holder.excursionItemView2.setText(Integer.toString(excursionID));
+            holder.excursionItemView2.setText(Integer.toString(vacationID));
         }
 
         else {

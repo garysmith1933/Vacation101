@@ -228,6 +228,3 @@ public class VacationDetails extends AppCompatActivity {
         return true;
     }
 }
-
-
-//need to do the same thing for excursion, being able to add it and update it.
