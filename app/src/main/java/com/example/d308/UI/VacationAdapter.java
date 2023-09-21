@@ -2,6 +2,7 @@ package com.example.d308.UI;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +41,8 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
                     intent.putExtra("id", current.getVacationID());
                     intent.putExtra("name", current.getTitle());
                     intent.putExtra("hotel", current.getHotel());
-                    intent.putExtra("startDate", current.getStartDate());
-                    intent.putExtra("endDate", current.getEndDate());
+                    intent.putExtra("startDate", current.getStartDate().toString());
+                    intent.putExtra("endDate", current.getEndDate().toString());
                     context.startActivity(intent);
                 }
             });

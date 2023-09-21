@@ -36,14 +36,15 @@ public class VacationDetails extends AppCompatActivity {
     String hotel;
     int vacationID;
     DatePickerDialog.OnDateSetListener startDate;
-    Date endDate;
+    DatePickerDialog.OnDateSetListener endDate;
 
-    final Calendar myCalendarStart = Calendar.getInstance();
+    final Calendar calStart = Calendar.getInstance();
+    final Calendar calEnd = Calendar.getInstance();
 
     EditText editName;
     EditText editHotelName;
     TextView editStartDate;
-    CalendarView editEndDate;
+    TextView editEndDate;
     Repository repository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class VacationDetails extends AppCompatActivity {
         editHotelName = findViewById(R.id.hoteltext);
         editStartDate = findViewById(R.id.startDate);
         editEndDate = findViewById(R.id.endDate);
-        String dateFormat = "MM/dd/yy";
+        String dateFormat = "E MMM dd HH:mm:ss zzz yyyy";
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
 
         name = getIntent().getStringExtra("name");
@@ -65,18 +66,13 @@ public class VacationDetails extends AppCompatActivity {
         editHotelName.setText(hotel);
 
         vacationID = getIntent().getIntExtra("id", -1);
-
-        long tempEndDate = getIntent().getLongExtra("endDate", -1);
-
-        editEndDate.setDate(tempEndDate);
-
         startDate = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                myCalendarStart.set(Calendar.YEAR, year);
-                myCalendarStart.set(Calendar.MONTH, month);
-                myCalendarStart.set(Calendar.DAY_OF_MONTH, day);
+                calStart.set(Calendar.YEAR, year);
+                calStart.set(Calendar.MONTH, month);
+                calStart.set(Calendar.DAY_OF_MONTH, day);
 
                 updateStartDate();
             }
@@ -87,32 +83,56 @@ public class VacationDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //you get it from the intent, you pass the info down.
-
                 //get value from other screen,but I'm going to hard code it right now
-                String startDateInfo = editStartDate.getText().toString();
+                String startDateInfo = getIntent().getStringExtra("startDate");
+                Log.d("tag", startDateInfo);
                 if (startDateInfo.equals("")) startDateInfo = "02/10/22";
 
                 try {
-                    myCalendarStart.setTime(formatter.parse(startDateInfo));
+                    calStart.setTime(formatter.parse(startDateInfo));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
-                new DatePickerDialog(VacationDetails.this, startDate, myCalendarStart
-                        .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
-                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(VacationDetails.this, startDate, calStart
+                        .get(Calendar.YEAR), calStart.get(Calendar.MONTH),
+                        calStart.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
-        editEndDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        endDate = new DatePickerDialog.OnDateSetListener() {
+
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, month, day);
-                endDate = calendar.getTime();
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                calEnd.set(Calendar.YEAR, year);
+                calEnd.set(Calendar.MONTH, month);
+                calEnd.set(Calendar.DAY_OF_MONTH, day);
+
+                updateEndDate();
+            }
+        };
+
+        editEndDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //you get it from the intent, you pass the info down.
+                //get value from other screen,but I'm going to hard code it right now
+                String endDateInfo = getIntent().getStringExtra("endDate");
+                Log.d("tag", endDateInfo);
+                if (endDateInfo.equals("")) endDateInfo = "02/10/22";
+
+                try {
+                    calEnd.setTime(formatter.parse(endDateInfo));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                new DatePickerDialog(VacationDetails.this, endDate, calEnd
+                        .get(Calendar.YEAR), calEnd.get(Calendar.MONTH),
+                        calEnd.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,8 +155,15 @@ public class VacationDetails extends AppCompatActivity {
     private void updateStartDate() {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        Log.d("tag", myCalendarStart.getTime().toString());
-        editStartDate.setText(sdf.format(myCalendarStart.getTime()));
+        Log.d("tag", calStart.getTime().toString());
+        editStartDate.setText(sdf.format(calStart.getTime()));
+    }
+
+    private void updateEndDate() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Log.d("tag", calEnd.getTime().toString());
+        editStartDate.setText(sdf.format(calEnd.getTime()));
     }
 
 
@@ -155,12 +182,12 @@ public class VacationDetails extends AppCompatActivity {
             if (vacationID == -1) {
                 if (repository.getmAllVacations().size() == 0) vacationID = 1;
                 else vacationID = repository.getmAllVacations().get(repository.getmAllVacations().size()-1).getVacationID()+1;
-                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), myCalendarStart.getTime(), endDate);
+                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), calStart.getTime(), calStart.getTime());
                 repository.insert(vacation);
             }
 
             else {
-                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), myCalendarStart.getTime(), endDate);
+                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), calEnd.getTime(), calEnd.getTime());
                 repository.update(vacation);
                 this.finish();
             }
