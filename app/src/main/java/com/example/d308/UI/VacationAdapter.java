@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.d308.R;
 import com.example.d308.entities.Vacation;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.VacationViewHolder> {
     private List<Vacation> mVacations;
@@ -41,12 +44,17 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
                     intent.putExtra("id", current.getVacationID());
                     intent.putExtra("name", current.getTitle());
                     intent.putExtra("hotel", current.getHotel());
-                    intent.putExtra("startDate", current.getStartDate().toString());
-                    intent.putExtra("endDate", current.getEndDate().toString());
+                    intent.putExtra("startDate", formatDate(current.getStartDate()));
+                    intent.putExtra("endDate", formatDate(current.getEndDate()));
                     context.startActivity(intent);
                 }
             });
         }
+    }
+
+    private String formatDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy", Locale.US);
+        return formatter.format(date);
     }
     @NonNull
     @Override

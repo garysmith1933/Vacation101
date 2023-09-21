@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, VacationList.class);
                 intent.putExtra("test", "this is just a test");
-                System.out.println("its clicked");
                 startActivity(intent);
             }
         });

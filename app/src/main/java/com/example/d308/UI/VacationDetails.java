@@ -16,6 +16,7 @@ import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.d308.R;
 import com.example.d308.database.Repository;
@@ -46,6 +47,8 @@ public class VacationDetails extends AppCompatActivity {
     TextView editStartDate;
     TextView editEndDate;
     Repository repository;
+    Vacation currentVacation;
+    int numExcursions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -85,8 +88,10 @@ public class VacationDetails extends AppCompatActivity {
                 //you get it from the intent, you pass the info down.
                 //get value from other screen,but I'm going to hard code it right now
                 String startDateInfo = getIntent().getStringExtra("startDate");
-                Log.d("tag", startDateInfo);
-                if (startDateInfo.equals("")) startDateInfo = "02/10/22";
+
+                if (startDateInfo == "" || startDateInfo == null) {
+                    startDateInfo = formatter.format(new Date());
+                }
 
                 try {
                     calStart.setTime(formatter.parse(startDateInfo));
@@ -117,8 +122,10 @@ public class VacationDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String endDateInfo = getIntent().getStringExtra("endDate");
-                Log.d("tag", endDateInfo);
-                if (endDateInfo.equals("")) endDateInfo = "02/10/22";
+                if (endDateInfo == null || endDateInfo.length() == 0) {
+                    endDateInfo = formatter.format(new Date());
+                    Log.d("enddDate", Integer.toString(editEndDate.length()));
+                }
 
                 try {
                     calEnd.setTime(formatter.parse(endDateInfo));
@@ -180,16 +187,38 @@ public class VacationDetails extends AppCompatActivity {
             if (vacationID == -1) {
                 if (repository.getmAllVacations().size() == 0) vacationID = 1;
                 else vacationID = repository.getmAllVacations().get(repository.getmAllVacations().size()-1).getVacationID()+1;
-                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), calStart.getTime(), calStart.getTime());
+                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), calStart.getTime(), calEnd.getTime());
                 repository.insert(vacation);
             }
 
             else {
-                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), calEnd.getTime(), calEnd.getTime());
+                vacation = new Vacation(vacationID, editName.getText().toString(), editHotelName.getText().toString(), calStart.getTime(), calEnd.getTime());
                 repository.update(vacation);
                 this.finish();
             }
         }
+
+        if (item.getItemId()== R.id.vacationDelete) {
+            for (Vacation vacation : repository.getmAllVacations()) {
+                if (vacation.getVacationID() == vacationID) currentVacation = vacation;
+            }
+
+            numExcursions = 0;
+            for (Excursion excursion : repository.getmAllExcursions()) {
+                if (excursion.getVacationID() == vacationID) ++numExcursions;
+            }
+
+            if (numExcursions == 0) {
+                repository.delete(currentVacation);
+                Toast.makeText(VacationDetails.this, currentVacation.getTitle() + " was deleted.", Toast.LENGTH_LONG).show();
+                this.finish();
+            } else {
+                Toast.makeText(VacationDetails.this, "Vacations with set excursions cannot be deleted.", Toast.LENGTH_LONG).show();
+            }
+
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }
