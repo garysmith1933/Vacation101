@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:padding="10dp"
-                    android:text="title: " />
+                    android:text="name: " />
 
                 <EditText
                     android:id="@+id/titletext"
@@ -62,10 +62,12 @@
                     android:layout_margin="2dp"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:padding="10dp"
                     android:text="Start date"/>
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:padding="10dp"
                     android:inputType="none"
                     android:id="@+id/startDate"
                     android:drawableRight="@drawable/calendar"/>
@@ -79,10 +81,12 @@
                     android:layout_margin="2dp"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:padding="10dp"
                     android:text="End date"/>
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:padding="10dp"
                     android:inputType="none"
                     android:id="@+id/endDate"
                     android:drawableRight="@drawable/calendar"/>

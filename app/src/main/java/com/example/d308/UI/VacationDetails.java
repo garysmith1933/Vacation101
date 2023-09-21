@@ -116,8 +116,6 @@ public class VacationDetails extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //you get it from the intent, you pass the info down.
-                //get value from other screen,but I'm going to hard code it right now
                 String endDateInfo = getIntent().getStringExtra("endDate");
                 Log.d("tag", endDateInfo);
                 if (endDateInfo.equals("")) endDateInfo = "02/10/22";
@@ -163,7 +161,7 @@ public class VacationDetails extends AppCompatActivity {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Log.d("tag", calEnd.getTime().toString());
-        editStartDate.setText(sdf.format(calEnd.getTime()));
+        editEndDate.setText(sdf.format(calEnd.getTime()));
     }
 
 
