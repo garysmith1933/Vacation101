@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.d308.R;
 import com.example.d308.database.Repository;
@@ -38,9 +39,10 @@ public class ExcursionDetails extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener startDate;
     Excursion currentExcursion;
 
-    int selectedVacationID;
+    int selectedVacationID = -1;
 
     final Calendar calendarStart = Calendar.getInstance();
+    private ExcursionAdapter excursionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class ExcursionDetails extends AppCompatActivity {
         editName = findViewById(R.id.excursionName);
         editName.setText(name);
         excursionID = getIntent().getIntExtra("id", -1);
-        vacationID = getIntent().getIntExtra("vacationID", -1);
+        vacationID = getIntent().getIntExtra("vacationID", selectedVacationID);
         editDate = findViewById(R.id.date);
         String dateFormat = "E MMM dd HH:mm:ss zzz yyyy";
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
@@ -119,7 +121,7 @@ public class ExcursionDetails extends AppCompatActivity {
 
 
     private void updateStartDate() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Log.d("tag", calendarStart.getTime().toString());
         editDate.setText(sdf.format(calendarStart.getTime()));
@@ -148,6 +150,7 @@ public class ExcursionDetails extends AppCompatActivity {
                 }
                 excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), selectedVacationID);
                 repository.insert(excursion);
+                this.finish();
             }
             else {
                 excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), selectedVacationID);
@@ -164,6 +167,8 @@ public class ExcursionDetails extends AppCompatActivity {
             }
 
             repository.delete(currentExcursion);
+            Toast.makeText(ExcursionDetails.this, currentExcursion.getExcursionName() + " was deleted.", Toast.LENGTH_LONG).show();
+            this.finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -172,7 +177,4 @@ public class ExcursionDetails extends AppCompatActivity {
 
 }
 
-//need to have excursions page go back to vacation details after action is made.
-//need the data to be there immediately after without going all the way back.
-//need to add notification on deletion of excursion.
 //e.  Include validation that the excursion date is during the associated vacation. - after start date before end date?

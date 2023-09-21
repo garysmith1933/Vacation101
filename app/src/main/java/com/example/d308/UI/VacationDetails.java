@@ -225,6 +225,18 @@ public class VacationDetails extends AppCompatActivity {
             return true;
         }
 
-        return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        RecyclerView recyclerView = findViewById(R.id.excursionRecyclerView);
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
+        recyclerView.setAdapter(excursionAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<Excursion> filteredExcursions = repository.getmAssociatedExcursions(vacationID);
+
+        excursionAdapter.setExcursions(filteredExcursions);
     }
 }
