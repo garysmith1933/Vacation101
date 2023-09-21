@@ -26,4 +26,7 @@ public interface VacationDAO {
     @Query("SELECT * FROM VACATIONS ORDER BY vacationID ASC")
     List<Vacation> getAllVacations();
 
+    @Query("SELECT * FROM VACATIONS WHERE title=:name LIMIT 1")
+    Vacation findVacationByName(String name);
+
 }

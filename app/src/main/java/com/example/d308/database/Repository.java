@@ -8,6 +8,7 @@ import com.example.d308.entities.Excursion;
 import com.example.d308.entities.Vacation;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -62,6 +63,17 @@ public class Repository {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public CompletableFuture<Vacation> findVacationByName(String name) {
+        CompletableFuture<Vacation> future = new CompletableFuture<>();
+
+        databaseExecutor.execute(() -> {
+            Vacation vacation = mVacationDAO.findVacationByName(name);
+            future.complete(vacation); // Completing the future with the result
+        });
+
+        return future;
     }
 
     public void delete(Vacation vacation){

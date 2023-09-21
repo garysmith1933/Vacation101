@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 public class ExcursionDetails extends AppCompatActivity {
     String name;
@@ -38,8 +39,6 @@ public class ExcursionDetails extends AppCompatActivity {
     Repository repository;
     DatePickerDialog.OnDateSetListener startDate;
     Excursion currentExcursion;
-
-    int selectedVacationID = -1;
 
     final Calendar calendarStart = Calendar.getInstance();
     private ExcursionAdapter excursionAdapter;
@@ -53,21 +52,17 @@ public class ExcursionDetails extends AppCompatActivity {
         editName = findViewById(R.id.excursionName);
         editName.setText(name);
         excursionID = getIntent().getIntExtra("id", -1);
-        vacationID = getIntent().getIntExtra("vacationID", selectedVacationID);
+        vacationID = getIntent().getIntExtra("vacationID", -1);
         editDate = findViewById(R.id.date);
         String dateFormat = "E MMM dd HH:mm:ss zzz yyyy";
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
 
         ArrayList<Vacation> vacationList= new ArrayList<>();
         vacationList.addAll(repository.getmAllVacations());
-        ArrayList<Integer> vacationIDList = new ArrayList<>();
 
-        for (Vacation vacation:vacationList) {
-            vacationIDList.add(vacation.getVacationID());
-        }
-        ArrayAdapter<Integer> vacationIdAdapter= new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item,vacationIDList);
+        ArrayAdapter<Vacation> vacationAdapter= new ArrayAdapter<Vacation>(this, android.R.layout.simple_spinner_item,vacationList);
         Spinner spinner=findViewById(R.id.spinner);
-        spinner.setAdapter(vacationIdAdapter);
+        spinner.setAdapter(vacationAdapter);
 
             startDate = new DatePickerDialog.OnDateSetListener() {
 
@@ -107,8 +102,13 @@ public class ExcursionDetails extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                selectedVacationID = (int) parentView.getItemAtPosition(position);
-                Log.d("id", "vacation id is set" + selectedVacationID);
+                String vacationName = parentView.getItemAtPosition(position).toString();
+                Log.d("id", "vacation id is set" + vacationName);
+                repository.findVacationByName(vacationName).thenAccept(vacation -> {
+                    vacationID = vacation.getVacationID();
+                    Log.d("id", "vacation id is set" + vacationID + vacationName);
+                });
+
             }
 
             @Override
@@ -117,8 +117,6 @@ public class ExcursionDetails extends AppCompatActivity {
         });
 
     }
-
-
 
     private void updateStartDate() {
         String myFormat = "MM/dd/yy";
@@ -140,6 +138,7 @@ public class ExcursionDetails extends AppCompatActivity {
         }
 
         if (item.getItemId()== R.id.excursionSave){
+            //check date here
             Excursion excursion;
             if (excursionID == -1) {
                 if (repository.getmAllExcursions().size() == 0) {
@@ -148,12 +147,12 @@ public class ExcursionDetails extends AppCompatActivity {
                 else {
                     excursionID = repository.getmAllExcursions().get(repository.getmAllExcursions().size() - 1).getExcursionID() + 1;
                 }
-                excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), selectedVacationID);
+                excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), vacationID);
                 repository.insert(excursion);
                 this.finish();
             }
             else {
-                excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), selectedVacationID);
+                excursion = new Excursion(excursionID, editName.getText().toString(), calendarStart.getTime(), vacationID);
                 repository.update(excursion);
                 this.finish();
             }
@@ -173,7 +172,6 @@ public class ExcursionDetails extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }
 

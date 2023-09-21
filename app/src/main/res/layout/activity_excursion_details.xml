@@ -46,11 +46,22 @@
                 android:id="@+id/date"
                 android:drawableRight="@drawable/calendar"/>
         </LinearLayout>
-        <Spinner
-            android:id="@+id/spinner"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_margin="2dp"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:text="Vacation Assignment: " />
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

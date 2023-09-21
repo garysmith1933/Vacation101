@@ -65,6 +65,10 @@ public class Vacation {
         this.endDate = endDate;
     }
 
+    public String toString() {
+        return this.title;
+    }
+
     public Vacation(int vacationID, String title, String hotel, Date startDate, Date endDate) {
         this.vacationID = vacationID;
         this.title = title;
