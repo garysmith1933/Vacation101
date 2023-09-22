@@ -33,15 +33,16 @@ public class ExcursionDetails extends AppCompatActivity {
     String name;
     int excursionID;
     int vacationID;
-
+    Date vacationStartDate;
+    Date vacationEndDate;
     EditText editName;
     TextView editDate;
     Repository repository;
     DatePickerDialog.OnDateSetListener startDate;
     Excursion currentExcursion;
-
     final Calendar calendarStart = Calendar.getInstance();
-    private ExcursionAdapter excursionAdapter;
+    String dateFormat = "E MMM dd HH:mm:ss zzz yyyy";
+    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +55,6 @@ public class ExcursionDetails extends AppCompatActivity {
         excursionID = getIntent().getIntExtra("id", -1);
         vacationID = getIntent().getIntExtra("vacationID", -1);
         editDate = findViewById(R.id.date);
-        String dateFormat = "E MMM dd HH:mm:ss zzz yyyy";
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
 
         ArrayList<Vacation> vacationList= new ArrayList<>();
         vacationList.addAll(repository.getmAllVacations());
@@ -106,6 +105,9 @@ public class ExcursionDetails extends AppCompatActivity {
                 Log.d("id", "vacation id is set" + vacationName);
                 repository.findVacationByName(vacationName).thenAccept(vacation -> {
                     vacationID = vacation.getVacationID();
+                    vacationStartDate = vacation.getStartDate();
+                    vacationEndDate = vacation.getEndDate();
+
                     Log.d("id", "vacation id is set" + vacationID + vacationName);
                 });
 
@@ -130,6 +132,13 @@ public class ExcursionDetails extends AppCompatActivity {
         return true;
     }
 
+    public boolean dateInValidRange() {
+        Log.d("dates", calendarStart.getTime().toString() + " " + vacationStartDate);
+        Log.d("dates", calendarStart.getTime().toString() + " " + vacationEndDate);
+        if (calendarStart.getTime().equals(vacationStartDate) || calendarStart.getTime().equals(vacationEndDate)) return true;
+        return calendarStart.getTime().after(vacationStartDate) && calendarStart.getTime().before(vacationEndDate);
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId()== android.R.id.home){
@@ -137,9 +146,14 @@ public class ExcursionDetails extends AppCompatActivity {
             return true;
         }
 
-        if (item.getItemId()== R.id.excursionSave){
-            //check date here
+        if (item.getItemId()== R.id.excursionSave) {
             Excursion excursion;
+
+            if (!dateInValidRange()) {
+                Toast.makeText(ExcursionDetails.this, "The date of the excursion must fall within the range of the start and end date of the vacation.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
             if (excursionID == -1) {
                 if (repository.getmAllExcursions().size() == 0) {
                     excursionID = 1;

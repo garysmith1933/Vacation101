@@ -85,8 +85,6 @@ public class VacationDetails extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //you get it from the intent, you pass the info down.
-                //get value from other screen,but I'm going to hard code it right now
                 String startDateInfo = getIntent().getStringExtra("startDate");
 
                 if (startDateInfo == "" || startDateInfo == null) {
@@ -143,6 +141,8 @@ public class VacationDetails extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(VacationDetails.this, ExcursionDetails.class);
                 intent.putExtra("vacationID", vacationID);
+                intent.putExtra("startDate", getIntent().getStringExtra("startDate"));
+                intent.putExtra("endDate", getIntent().getStringExtra("endDate"));
                 startActivity(intent);
             }
         });
@@ -159,14 +159,14 @@ public class VacationDetails extends AppCompatActivity {
     }
 
     private void updateStartDate() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Log.d("tag", calStart.getTime().toString());
         editStartDate.setText(sdf.format(calStart.getTime()));
     }
 
     private void updateEndDate() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Log.d("tag", calEnd.getTime().toString());
         editEndDate.setText(sdf.format(calEnd.getTime()));
