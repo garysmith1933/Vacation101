@@ -9,4 +9,8 @@
 
     <item android:title="Share Vacation Details"
         android:id="@+id/share"/>
+
+    <item android:title="Notify Start Date"
+        android:orderInCategory="100"
+        android:id="@+id/notify"/>
 </menu>

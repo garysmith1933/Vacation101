@@ -2,7 +2,11 @@ package com.example.d308.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -184,9 +188,36 @@ public class ExcursionDetails extends AppCompatActivity {
             this.finish();
         }
 
+        if (item.getItemId() == R.id.notify) {
+            String startDateText = editDate.getText().toString();
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+            try {
+                Date startDate = sdf.parse(startDateText);
+
+                createNotification(startDate, "E1", editName.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
+    private void createNotification(Date date, String notificationType, String excursionName) {
+        try {
+            long trigger = date.getTime();
+            Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
+            intent.putExtra("Date Alert", notificationType);
+            intent.putExtra("title", excursionName);
+            PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
-
-//e.  Include validation that the excursion date is during the associated vacation. - after start date before end date?

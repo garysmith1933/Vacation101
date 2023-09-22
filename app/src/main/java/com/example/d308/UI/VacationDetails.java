@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -240,8 +243,40 @@ public class VacationDetails extends AppCompatActivity {
             return true;
         }
 
+        if (item.getItemId() == R.id.notify) {
+            String startDateText = editStartDate.getText().toString();
+            String endDateText = editEndDate.getText().toString();
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
+            try {
+                Log.d("date", startDateText);
+                Date startDate = sdf.parse(startDateText);
+                Date endDate = sdf.parse(endDateText);
+
+                createNotification(startDate, "V1", currentVacation.getTitle());
+                createNotification(endDate, "V2", currentVacation.getTitle());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createNotification(Date date, String notificationType, String vacationName) {
+        try {
+            long trigger = date.getTime();
+            Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
+            intent.putExtra("Date Alert", notificationType);
+            intent.putExtra("title", vacationName);
+            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
