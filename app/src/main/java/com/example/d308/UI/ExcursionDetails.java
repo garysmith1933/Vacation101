@@ -189,12 +189,12 @@ public class ExcursionDetails extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.notify) {
-            String startDateText = editDate.getText().toString();
+            String dateText = editDate.getText().toString();
             String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
             try {
-                Date startDate = sdf.parse(startDateText);
+                Date startDate = sdf.parse(dateText);
 
                 createNotification(startDate, "E1", editName.getText().toString());
             } catch (ParseException e) {

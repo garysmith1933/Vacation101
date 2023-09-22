@@ -243,19 +243,30 @@ public class VacationDetails extends AppCompatActivity {
             return true;
         }
 
-        if (item.getItemId() == R.id.notify) {
+        if (item.getItemId() == R.id.notifyStartDate) {
             String startDateText = editStartDate.getText().toString();
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+            try {
+                Date startDate = sdf.parse(startDateText);
+                createNotification(startDate, "V1", editName.getText().toString());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+
+        if (item.getItemId() == R.id.notifyEndDate) {
             String endDateText = editEndDate.getText().toString();
             String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
             try {
-                Log.d("date", startDateText);
-                Date startDate = sdf.parse(startDateText);
                 Date endDate = sdf.parse(endDateText);
-
-                createNotification(startDate, "V1", currentVacation.getTitle());
-                createNotification(endDate, "V2", currentVacation.getTitle());
+                createNotification(endDate, "V2", editName.getText().toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }

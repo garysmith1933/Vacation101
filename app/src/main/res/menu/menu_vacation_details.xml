@@ -12,5 +12,10 @@
 
     <item android:title="Notify Start Date"
         android:orderInCategory="100"
-        android:id="@+id/notify"/>
+        android:id="@+id/notifyStartDate"/>
+
+
+    <item android:title="Notify End Date"
+        android:orderInCategory="100"
+        android:id="@+id/notifyEndDate"/>
 </menu>
