@@ -49,6 +49,8 @@ public class VacationDetails extends AppCompatActivity {
     Repository repository;
     Vacation currentVacation;
     int numExcursions;
+    String dateFormat = "E MMM dd HH:mm:ss zzz yyyy";
+    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -59,8 +61,6 @@ public class VacationDetails extends AppCompatActivity {
         editHotelName = findViewById(R.id.hoteltext);
         editStartDate = findViewById(R.id.startDate);
         editEndDate = findViewById(R.id.endDate);
-        String dateFormat = "E MMM dd HH:mm:ss zzz yyyy";
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
 
         name = getIntent().getStringExtra("name");
         editName.setText(name);
@@ -224,6 +224,22 @@ public class VacationDetails extends AppCompatActivity {
 
             return true;
         }
+
+        if (item.getItemId()== R.id.share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Vacation Name: " + editName.getText().toString() + "\n"
+                    + "Hotel Name: " + editHotelName.getText().toString() + "\n"
+                    + "Start Date: " + formatter.format(calStart.getTime()) + " \n"
+                    + "End Date " + formatter.format(calEnd.getTime())
+            );
+            sendIntent.putExtra(Intent.EXTRA_TITLE, editName.getText().toString() + "Details");
+            sendIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
