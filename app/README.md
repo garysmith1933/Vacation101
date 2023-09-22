@@ -18,6 +18,8 @@ Excursion Details: This page is where users add their excursion info to existing
 Also just like the vacation details page, users are able to get notifications of the start date of their excursion. Its important to know that the date must be set for this to work. The date must also be in the range of the chosen vacations start and end dates, failure to do so will result in an error.
 This page includes a drop menu that allows the user to choose which vacation to associate the excursion to. You can change this at any time. 
 
+All pages except for the home page have a back button to navigate back to the previous page.
+
 APK INFORMATION: The signed APK is deployed on Android 8 API 26.
 
 REPOSITORY LINK: https://gitlab.com/wgu-gitlab-environment/student-repos/gsmi572/d308-mobile-application-development-android/-/tree/d308?ref_type=heads
