@@ -45,11 +45,6 @@ public class VacationList extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_vacation_list, menu);
-        return true;
-    }
-    @Override
     protected void onResume(){
         super.onResume();
         List<Vacation> allVacations = repository.getmAllVacations();
@@ -58,48 +53,5 @@ public class VacationList extends AppCompatActivity {
         recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         vacationAdapter.setVacations(allVacations);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.sample) {
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, 2023);
-            calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
-            calendar.set(Calendar.DAY_OF_MONTH, 20);
-
-            Date startDate = calendar.getTime();
-
-            calendar.set(Calendar.DAY_OF_MONTH, 30);
-
-            Date endDate = calendar.getTime();
-
-            repository= new Repository(getApplication());
-            Vacation vacation= new Vacation(0, "Hawaii", "The good one", startDate, endDate);
-            repository.insert(vacation);
-
-            calendar.set(Calendar.DAY_OF_MONTH, 22);
-
-            Date bikingDate = calendar.getTime();
-
-            calendar.set(Calendar.DAY_OF_MONTH, 22);
-
-            Date showDate = calendar.getTime();
-
-            Excursion excursion1 = new Excursion(0, "biking", bikingDate, vacation.getVacationID());
-            Excursion excursion2 = new Excursion(0, "Watch a show",showDate, vacation.getVacationID());
-            repository.insert(excursion1);
-            repository.insert(excursion2);
-
-            return true;
-        }
-
-        if (item.getItemId() == android.R.id.home) {
-            this.finish();
-            return true;
-        }
-
-        return true;
     }
 }
