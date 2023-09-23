@@ -74,17 +74,24 @@ public class VacationDetails extends AppCompatActivity {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        try {
-            Date startDate = formatter.parse(getIntent().getStringExtra("startDate"));
-            String startDateText = sdf.format(startDate);
-            editStartDate.setText(startDateText);
+        if (getIntent().hasExtra("startDate") && getIntent().hasExtra("endDate")){
+            try {
+                Date startDate = formatter.parse(getIntent().getStringExtra("startDate"));
+                String startDateText = sdf.format(startDate);
+                editStartDate.setText(startDateText);
+                calStart.setTime(startDate);
 
-            Date endDate = formatter.parse(getIntent().getStringExtra("endDate"));
-            String endDateText = sdf.format(endDate);
-            editEndDate.setText(endDateText);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+                Date endDate = formatter.parse(getIntent().getStringExtra("endDate"));
+                String endDateText = sdf.format(endDate);
+                editEndDate.setText(endDateText);
+                calEnd.setTime(endDate);
+            }
+
+            catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
+
 
         vacationID = getIntent().getIntExtra("id", -1);
         startDate = new DatePickerDialog.OnDateSetListener() {
@@ -134,13 +141,11 @@ public class VacationDetails extends AppCompatActivity {
         };
 
         editEndDate.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 String endDateInfo = getIntent().getStringExtra("endDate");
                 if (endDateInfo == null || endDateInfo.length() == 0) {
                     endDateInfo = formatter.format(new Date());
-                    Log.d("enddDate", Integer.toString(editEndDate.length()));
                 }
 
                 try {
@@ -179,14 +184,14 @@ public class VacationDetails extends AppCompatActivity {
     private void updateStartDate() {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        Log.d("tag", calStart.getTime().toString());
+        Log.d("startDateUpdate", calStart.getTime().toString());
         editStartDate.setText(sdf.format(calStart.getTime()));
     }
 
     private void updateEndDate() {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        Log.d("tag", calEnd.getTime().toString());
+        Log.d("endDateUpdate", calEnd.getTime().toString());
         editEndDate.setText(sdf.format(calEnd.getTime()));
     }
 
@@ -203,8 +208,6 @@ public class VacationDetails extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.vacationSave ) {
             Vacation vacation;
-            Log.d("test", calStart.getTime().toString());
-            Log.d("test", calEnd.getTime().toString());
             if ( !calStart.getTime().before(calEnd.getTime())) {
                 Toast.makeText(VacationDetails.this, "ERROR: The end date must be after the start date.", Toast.LENGTH_LONG).show();
                 return false;
