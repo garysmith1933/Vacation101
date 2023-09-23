@@ -66,6 +66,12 @@ public class ExcursionDetails extends AppCompatActivity {
         ArrayAdapter<Vacation> vacationAdapter= new ArrayAdapter<Vacation>(this, android.R.layout.simple_spinner_item,vacationList);
         Spinner spinner=findViewById(R.id.spinner);
         spinner.setAdapter(vacationAdapter);
+        for (int i = 0; i < vacationList.size(); i++) {
+            if (vacationList.get(i).getVacationID() == vacationID) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
 
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
