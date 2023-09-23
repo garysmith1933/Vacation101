@@ -67,6 +67,22 @@ public class ExcursionDetails extends AppCompatActivity {
         Spinner spinner=findViewById(R.id.spinner);
         spinner.setAdapter(vacationAdapter);
 
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        if (getIntent().hasExtra("date")){
+            try {
+                Date date = formatter.parse(getIntent().getStringExtra("date"));
+                String dateText = sdf.format(date);
+                editDate.setText(dateText);
+                calendarStart.setTime(date);
+            }
+
+            catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
             startDate = new DatePickerDialog.OnDateSetListener() {
 
             @Override
