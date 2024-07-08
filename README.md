@@ -1,28 +1,25 @@
-<strong> **DO NOT DISTRIBUTE OR PUBLICLY POST SOLUTIONS TO THESE LABS. MAKE ALL FORKS OF THIS REPOSITORY WITH SOLUTION CODE PRIVATE. PLEASE REFER TO THE STUDENT CODE OF CONDUCT AND ETHICAL EXPECTATIONS FOR COLLEGE OF INFORMATION TECHNOLOGY STUDENTS FOR SPECIFICS. ** </strong>
 
-# WESTERN GOVERNOR UNIVERSITY 
-## D308 – MOBILE APPLICATION DEVELOPMENT (ANDROID)
-Welcome to Mobile Application Development (Android)! This is an opportunity for students to create page layouts with clean navigation, design mobile application infrastructure and user interfaces, develop secure database-backed mobile applications in an object-oriented language, document solutions for application requirements with storyboards and emulators, articulate challenges in the development process, and describe alternatives methods in overcoming mobile application development problems. 
 
-FOR SPECIFIC TASK INSTRUCTIONS AND REQUIREMENTS FOR THIS ASSESSMENT, PLEASE REFER TO THE COURSE PAGE.
-## BASIC INSTRUCTIONS
-For this assessment, you have an opportunity to test your competency as a mobile application developer. Your understanding of mobile application structure and design will help you to develop applications to meet customer requirements. This task will allow you to demonstrate your ability to apply the skills learned in the course.
+Vacation 101 is an application to provide users with the ability to create their own adventure. 
 
-## SUPPLEMENTAL RESOURCES 
-1.	How to clone a project to Android Studio using Git?
+HOW IT WORKS
 
-> Ensure that Android Studio and Git are installed on your system.  New Project, Get from VCS button or the File/New/Project from Version Control. This will open a window  with a prompt to clone the project. Save it in a safe location for the directory and press clone. IntelliJ will prompt you for your credentials. Enter in your WGU Credentials and the project will be cloned onto your local machine.
+Main Activity: This is the home page of the application, clicking on it will send you to the vacation list.
 
-2. How to create a branch and start Development?
+Vacation List: This page is used to show vacations added by the user. Clicking on any of the vacation names here will lead to the vacation details page with details about the vacation. 
+The + button on the bottom right corner will allow you to add and update a vacation by leading to the vacation details page. 
 
-- GitLab method
-> Press the '+' button located near your branch name. In the dropdown list, press the 'New branch' button. This will allow you to create a name for your branch. Once the branch has been named, you can select 'Create Branch' to push the branch to your repository.
+Vacation Details: This page is where users will start create their vacations by adding the vacation info. To save the information, click on the 3 dots on the right corner of the phone and tap on "Save Vacation"
+This is also how you update your vacation information after it is created if you want to make changes. Delete Vacation will remove the vacation all together, Share Vacation Details allows the user to share the current vacation details via text messages. 
+Notify Start Date sets up a notification to remind you of the start date. You have to pick the date first in order for this to work. The same can be said for the Notify End Date, that will notify the user of the last day of their vacation.
+If there are excursions associated with the vacation, you will see the list of them on this page. Tapping on an excursion name or the + button will lead you to the Excursion details page, where you will be able to update info about the excursion.
 
-- Android Studio method
-> In Android Studio, Go to the 'Git' button on the top toolbar. Select the new branch option and create a name for the branch. Make sure checkout branch is selected and press create. You can now add a commit message and push the new branch to the local repo.
+Excursion Details: This page is where users add their excursion info to existing vacations. Just like the vacation details page, excursions can be added, updated, and deleted here using the menu that appears by tapping on the 3 dots on the right corner of the screen.
+Also just like the vacation details page, users are able to get notifications of the start date of their excursion. Its important to know that the date must be set for this to work. The date must also be in the range of the chosen vacations start and end dates, failure to do so will result in an error.
+This page includes a drop menu that allows the user to choose which vacation to associate the excursion to. You can change this at any time. 
 
-## SUPPORT
-If you need additional support, please navigate to the course page and reach out to your course instructor.
-## FUTURE USE
-Take this opportunity to create or add to a simple resume portfolio to highlight and showcase your work for future use in career search, experience, and education!
+All pages except for the home page have a back button to navigate back to the previous page.
 
+APK INFORMATION: The signed APK is deployed on Android 8 API 26.
+
+REPOSITORY LINK: https://gitlab.com/wgu-gitlab-environment/student-repos/gsmi572/d308-mobile-application-development-android/-/tree/d308?ref_type=heads
