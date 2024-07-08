@@ -21,5 +21,3 @@ This page includes a drop menu that allows the user to choose which vacation to 
 All pages except for the home page have a back button to navigate back to the previous page.
 
 APK INFORMATION: The signed APK is deployed on Android 8 API 26.
-
-REPOSITORY LINK: https://gitlab.com/wgu-gitlab-environment/student-repos/gsmi572/d308-mobile-application-development-android/-/tree/d308?ref_type=heads
